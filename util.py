@@ -34,7 +34,7 @@ def price_format(price):
 
 def get_request_ip(request):
     """
-    If the request has a header called X-Forwarded-For, return that, otherwise return the remote address
+    If the request has a header, return that, otherwise return the remote address
     
     Args:
       request: The request object.
@@ -42,8 +42,11 @@ def get_request_ip(request):
     Returns:
       The IP address of the client.
     """
-    return request.headers.get("X-Forwarded-For", request.remote_addr)
-
+    if request.headers.getlist("X-Forwarded-For"):
+        ip = request.headers.getlist("X-Forwarded-For")[0]
+    else:
+        ip = request.remote_addr
+    return ip
 
 def get_coordinates(ipaddr):
     """

@@ -209,7 +209,7 @@ def search():
 
 @app.route("/static/img/<path:filename>")
 def static_img(filename):
-    if os.path.isfile(f"static/imgs/{filename}"):
+    if os.path.isfile(f"static/img/{filename}"):
         return send_from_directory("static/img", filename)
     else:
         # proxy fallback

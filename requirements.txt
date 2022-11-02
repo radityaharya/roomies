@@ -1,8 +1,9 @@
 Flask==2.2.2
-Flask_Caching==2.0.1
 geopy==2.2.0
 numpy==1.23.3
 Pillow==9.3.0
-pymongo[srv]==4.2.0
+PyJWT==2.6.0
+pymongo==4.2.0
 python-dotenv==0.21.0
 requests==2.25.1
+Werkzeug==2.2.2

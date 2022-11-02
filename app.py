@@ -18,11 +18,11 @@ from flask import (
 from werkzeug.serving import WSGIRequestHandler
 from modules import auth_user
 import util
-load_dotenv()
+load_dotenv(override=True)
 
 app = Flask("roomies")
 app.secret_key = os.urandom(24)
-client = pymongo.MongoClient(os.getenv("MONGO_URI"))
+client = pymongo.MongoClient(os.environ["MONGO_URI"])
 
 db = client.roomies
 users = db.users

@@ -1,0 +1,8 @@
+version: '3'
+services:
+    line-bot:
+        build: .
+        ports:
+            - "80:80"
+        volumes:
+            - .:/roomies

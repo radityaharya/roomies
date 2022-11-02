@@ -1,0 +1,26 @@
+{% macro card(property)%}
+<div class="col" style="width: 300px;margin: 10px; " onclick="window.location.href = '/property/{{property.id}}'" style="cursor: pointer;">
+                    <div class="card bg-light border-light" style="border-radius: 16;overflow: clip;">
+                        <div class="card-body p-4"
+                            style="background: linear-gradient(0deg, rgba(0,0,0,0.85), rgba(255,255,255,0)), url(&quot;{{property.pictures[0]}}&quot;) center / auto;">
+                            <div class="d-flex flex-column justify-content-md-end" style="min-height: 400px;">
+                                <div>
+                                    <p class="fw-bold mb-0" style="color: var(--bs-white);font-size: 18px;">
+                                        {{property.name}}</p>
+                                    <p style="color: var(--bs-white);margin-bottom: 0px;">{{property.location}}</p>
+                                    <div class="d-flex flex-row align-items-lg-end align-items-xl-end">
+                                        <p class="fw-bold mb-0" style="color: #A5A6F6;font-size: 24px;">Rp {{property.price}}</p>
+                                        <p class="fw-bold mb-0" style="color: var(--bs-white);font-size: 14px;"><span
+                                                style="font-weight: normal !important;">/month</span></p>
+                                    </div>
+                                </div>
+                                <div>
+                                {%for icon in property.icons%}
+                                    <i class="{{icon}}" style="height: 20px;width: 20px;color: var(--bs-white);"></i>
+                                    {%endfor%}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{% endmacro %}

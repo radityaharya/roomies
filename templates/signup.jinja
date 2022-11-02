@@ -1,0 +1,83 @@
+{% extends "base.jinja"%}
+
+{% block content %}
+<section class="py-5" style="min-height: 100vh;">
+    <!-- Start: Hero Clean Reverse -->
+    <div class="container" style="margin-top: 84px;">
+        <div class="row" style="height: 100%;">
+            <div class="col-12 col-md-6 d-flex d-xl-flex flex-column m-auto align-items-sm-center align-items-md-start justify-content-xl-center"
+                style="height: 100%;">
+                <lottie-player mode="normal" src="/static/js/lf30_editor_zaexsqqx.json" autoplay="" loop=""
+                    style="max-width: 350px;"></lottie-player>
+                <p style="font-size: 23px;"><span style="color: rgb(53, 55, 64);">Lets get Started by Creating your
+                        account</span></p>
+            </div>
+            <div class="col-md-6">
+                <div class="card"></div>
+                <form method="post">
+                    <h1 style="margin-bottom: 20px;"><strong>Register</strong></h1>
+                    <div class="d-flex flex-row mb-3"><input class="form-control" type="text" name="firstname"
+                            placeholder="First Name" required><input class="form-control" type="text" name="lastname"
+                            placeholder="Last Name" required></div>
+                    <div class="mb-3"><select class="form-select" name="province">
+                            <optgroup label="Province">
+                                <option value="Jakarta" selected="">Jakarta</option>
+                                <option value="13">This is item 2</option>
+                                <option value="14">This is item 3</option>
+                            </optgroup>
+                        </select></div>
+                    <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"
+                            required>
+                    </div>
+                    <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"
+                            onchange="PasswordonChange()"></div>
+                    <div class="mb-3"><input class="form-control" type="password" name="passwordconfirm"
+                            placeholder="Confirm Password" onchange="PasswordonChange()" required></div>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit"
+                            name="submit">Register</button></div>
+                    <p class="text-muted">Already have an account? <a href="/login">Login</a></p>
+            </div>
+            </form>
+        </div>
+    </div>
+    </div><!-- End: Hero Clean Reverse -->
+</section><!-- Start: Footer Multi Column -->
+{% endblock %}
+{% block script %}
+<script>
+    function PasswordonChange() {
+        var password = document.getElementsByName("password")[0].value;
+        var passwordconfirm = document.getElementsByName("passwordconfirm")[0].value;
+        var submitbutton = document.getElementsByName("submit")[0];
+        if (password != passwordconfirm) {
+            submitbutton.disabled = true;
+
+            var alert = document.createElement("div");
+            alert.setAttribute("class", "alert alert-danger");
+            alert.setAttribute("role", "alert");
+            alert.innerHTML = "Password doesn't match";
+            
+            //check if alert already exist
+            var alertexist = document.getElementsByClassName("alert-danger");
+            if (alertexist.length == 0) {
+                document.getElementsByClassName("card")[0].appendChild(alert);
+            }
+        } else {
+            submitbutton.disabled = false;
+            var alert = document.getElementsByName("passwordconfirm")[0].parentNode.lastChild;
+            if (alert.getAttribute("class") == "alert alert-danger") {
+                document.getElementsByName("passwordconfirm")[0].parentNode.removeChild(alert);
+            }
+        }
+    }
+</script>
+{% endblock %}

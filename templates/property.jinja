@@ -1,0 +1,140 @@
+{% extends "base.jinja"%}
+
+{% block content %}
+<!-- Start: Product Detail -->
+<section class="py-5">
+    <!-- Start: 2 Rows 1+2 Columns -->
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-12" style="margin-bottom: 31px;">
+                <div>
+                    <div id="carousel-1" class="carousel slide" data-bs-ride="carousel"
+                        style="border-radius: 16px;overflow: clip;">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active"><img class="w-100 d-block"
+                                    src="{{property.pictures[0]}}" alt="Slide Image"
+                                    style="max-height: 500px;object-fit: cover;" loading="lazy"/></div>
+
+                            {%for pic in property.pictures[1:]%}
+                            <div class="carousel-item"><img class="w-100 d-block"
+                                    src="{{pic}}" alt="Slide Image"
+                                    style="max-height: 500px;object-fit: cover;" loading="lazy"/></div>
+                            {%endfor%}
+                            
+                        </div>
+                        <div><a class="carousel-control-prev" href="#carousel-1" role="button"
+                                data-bs-slide="prev"><span class="carousel-control-prev-icon"></span><span
+                                    class="visually-hidden">Previous</span></a><a class="carousel-control-next"
+                                href="#carousel-1" role="button" data-bs-slide="next"><span
+                                    class="carousel-control-next-icon"></span><span
+                                    class="visually-hidden">Next</span></a></div>
+                        <ol class="carousel-indicators">
+                            <li class="active" data-bs-target="#carousel-1" data-bs-slide-to="0"></li>
+                            {%for i in range(property.pictures|length-1)%}
+                            <li data-bs-target="#carousel-1" data-bs-slide-to="{{i+1}}"></li>
+                            {%endfor%}
+                            
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-auto col-md-6 col-lg-7">
+                <div style="margin-bottom: 30px;">
+                    <h4 class="fw-bold" style="margin-top: 3px;font-size: 32px;">{{property.name}}<br></h4>
+                    <p class="text-muted" style="margin-bottom: 0px;"><span
+                            style="color: rgb(45, 45, 45);">{{property.location}}</span><br></p>
+                </div>
+                <div>
+                    <h5 class="fw-bold text-dark" style="color: var(--bs-border-color);margin-bottom: 15px;">What
+                        this place offers<br></h5>
+                    <ul class="list-unstyled">
+                        {% for fasilitas in property.fasilitas %}
+                        <li class="d-flex mb-2"><span
+                                class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                    viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                    <path
+                                        d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                    </path>
+                                </svg></span><span>{{fasilitas}}</span></li>
+                        {%endfor%}
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="card shadow-sm" style="margin-bottom: 20px;">
+                    <div class="card-body px-4 py-4 px-md-4" style="padding-bottom: 31px;padding-right: 37px;">
+                        <h5 class="fw-bold card-title" style="margin-bottom: 20px;">Rp {{property.price}} / Month</h5>
+                        <div class="row justify-content-between" style="margin-bottom: 30px;">
+                            <div class="col-auto col-xxl-auto">
+                                <div>
+                                    <p style="margin-bottom: 5px;">Start Date</p><input type="date"
+                                        style="background: var(--bs-light);border: 20px solid var(--bs-light);border-radius: 16px;min-width: 100%;">
+                                </div>
+                            </div>
+                            <div class="col-auto col-xxl-auto">
+                                <div style="width: 100%;">
+                                    <p style="margin-bottom: 5px;">Plan</p><select class="form-select" name="province"
+                                        style="height: 65px;">
+                                        <option value="monthly" selected="">Monthly</option>
+                                        <option value="annualy">Annualy</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div><button class="btn btn-primary shadow" type="button"
+                                style="border-radius: 16px;width: 100%;margin-bottom: 30px;">Apply for Rent</button>
+                        </div>
+                        <div>
+                            <ul class="list-unstyled">
+                                <li class="d-flex mb-2"><span
+                                        class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            fill="currentColor" viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                            </path>
+                                        </svg></span><span>Lectus ut nibh quam, felis porttitor.</span></li>
+                                <li class="d-flex mb-2"><span
+                                        class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            fill="currentColor" viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                            </path>
+                                        </svg></span><span>Ante nec venenatis etiam lacinia.</span></li>
+                                <li class="d-flex mb-2"><span
+                                        class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            fill="currentColor" viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                            </path>
+                                        </svg></span><span>Porta suscipit netus ad ac.</span></li>
+                                <li class="d-flex mb-2"><span
+                                        class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            fill="currentColor" viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                            </path>
+                                        </svg></span><span>Morbi praesent aptent integer at.</span></li>
+                                <li class="d-flex mb-2"><span
+                                        class="bs-icon-xs bs-icon-rounded bs-icon-semi-white bs-icon bs-icon-xs me-2"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                            fill="currentColor" viewBox="0 0 16 16" class="bi bi-check-lg text-primary">
+                                            <path
+                                                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z">
+                                            </path>
+                                        </svg></span><span>Nisl potenti ut auctor lobortis.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- End: 2 Rows 1+2 Columns -->
+</section><!-- End: Product Detail -->
+<!-- Start: Footer Multi Column -->
+{% endblock %}

@@ -209,9 +209,11 @@ def search():
 
 @app.route("/static/img/<path:filename>")
 def static_img(filename):
-    # file_path = os.path.join(app.root_path, "static", "img", filename)
-    return send_from_directory("static/img", filename)
-    # return util.add_watermark(file_path)
+    # check if file exists
+    if os.path.isfile(f"static/img/{filename}"):
+        return send_from_directory("static/img", filename)
+    else:
+        return redirect(f"https://img.roomies.radityaharya.me/{filename}")
 
 
 class MyRequestHandler(WSGIRequestHandler):

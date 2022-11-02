@@ -1,4 +1,4 @@
-{% macro navbar()%}
+{% macro navbar(is_logged_in)%}
 <nav class="navbar navbar-light navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav"
     style="--bs-primary: #A5A6F6;--bs-primary-rgb: 165,166,246;">
     <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span><img class="img-fluid"
@@ -11,7 +11,12 @@
                 <li class="nav-item"><a class="nav-link" href="/properties">Properties</a></li>
                 <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
                 <li class="nav-item"></li>
-            </ul><a class="btn btn-primary shadow" role="button" href="/signup">Sign up</a>
+            </ul>
+            {% if is_logged_in %}
+            <a class="btn btn-primary shadow" role="button" href="/signup">My Account</a>
+            {% else %}
+            <a class="btn btn-primary shadow" role="button" href="/signup">Sign Up</a>
+            {% endif %}
         </div>
     </div>
 </nav>

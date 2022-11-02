@@ -1,4 +1,5 @@
 import os
+import logging
 
 import bson
 import geopy.distance
@@ -7,19 +8,16 @@ import pymongo
 from dotenv import load_dotenv
 from flask import (
     Flask,
-    flash,
     redirect,
     render_template,
     request,
     url_for,
     send_from_directory,
 )
-from flask_caching import Cache
 
-from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.serving import WSGIRequestHandler
+from modules import auth_user
 import util
-
 load_dotenv()
 
 app = Flask("roomies")
@@ -29,65 +27,50 @@ client = pymongo.MongoClient(os.getenv("MONGO_URI"))
 db = client.roomies
 users = db.users
 
-cache = Cache(app, config={"CACHE_TYPE": "SimpleCache"})
+logger = logging.getLogger("roomies")
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter(
+    "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
-# TODO: Change this to use JWT
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        user = db.users.find_one({"email": request.form["email"]})
-        if user is None:
-            flash("Email not found")
-            return redirect(url_for("login"))
-        if not check_password_hash(user["password"], request.form["password"]):
-            flash("Wrong password")
-            return redirect(url_for("login"))
-        return util.set_user_cookie(user["_id"])
-    return render_template("login.jinja")
+    """
+    Returns:
+      The login function from the auth_user module.
+    """
+    return auth_user.login(users, request)
 
-# TODO: Change this to use JWT
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == "POST":
-        user = db.users.find_one({"email": request.form["email"]})
-        if user is not None:
-            flash("Email already exists")
-            return redirect(url_for("signup"))
-        db.users.insert_one(
-            {
-                "email": request.form["email"],
-                "password": generate_password_hash(request.form["password"]),
-                "first_name": request.form["firstname"],
-                "last_name": request.form["lastname"],
-                "province": request.form["province"],
-            }
-        )
-        return redirect(url_for("login"))
-    return render_template("signup.jinja")
+    """
+    Returns:
+      The signup function from the auth_user module.
+    """
+    return auth_user.signup(users, request)
 
 
 @app.route("/")
-@cache.cached(timeout=300, query_string=True)
 def home():
     """
     Returns:
       the render_template function, which is a function that renders a template.
     """
-    return render_template("index.jinja")
+    return render_template("index.jinja", is_logged_in=auth_user.is_logged_in(request))
 
 
 @app.route("/properties")
-@cache.cached(timeout=50, query_string=True)
+@auth_user.is_authenticated(request, users)
 def index():
     """
     Returns:
       a rendered template of the home page.
     """
-    user_id = request.cookies.get("user_id")
-    if user_id:
-        user = users.find_one({"_id": bson.ObjectId(user_id)})
-    else:
-        return redirect(url_for("login"))
+    user = users.find_one({"_id": bson.ObjectId(auth_user.decode_token(request.cookies.get("token"))["user_id"])})
     properties = db.properties.find()
     user_ip = util.get_request_ip(request)
     user_coordinates = util.get_coordinates(user_ip)
@@ -120,11 +103,10 @@ def index():
         "top": near_you,
     }
 
-    return render_template("home.jinja", properties=data["near_you"], user=user)
+    return render_template("home.jinja", properties=data["near_you"], user=user, is_logged_in=auth_user.is_logged_in(request))
 
 
 @app.route("/property/<property_id>", methods=["GET"])
-@cache.cached(timeout=50, query_string=True)
 def details(property_id):
     property_item = db.properties.find_one({"_id": bson.ObjectId(property_id)})
     if property is None:
@@ -140,7 +122,7 @@ def details(property_id):
         "icons": util.get_icon_from_facilities(property_item["fasilitas"]),
     }
 
-    return render_template("property.jinja", property=data)
+    return render_template("property.jinja", property=data, is_logged_in=auth_user.is_logged_in(request))
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -222,7 +204,7 @@ def search():
             "pictures": property_item["pictures"],
         }
         results.append(data_near_you)
-    return render_template("search.jinja", properties=results)
+    return render_template("search.jinja", properties=results, is_logged_in=auth_user.is_logged_in(request))
 
 
 @app.route("/static/img/<path:filename>")
@@ -255,4 +237,6 @@ def run(*kwargs):
 
 
 if __name__ == "__main__":
+    wsgi_log = logging.getLogger("werkzeug")
+    wsgi_log.setLevel(logging.ERROR)
     app.run(debug=True, port=5000, request_handler=MyRequestHandler)

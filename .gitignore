@@ -3,3 +3,5 @@
 *.pyc
 **/__pycache__/
 **/static/img/properties/
+.mypy_cache/
+```

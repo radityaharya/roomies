@@ -2,43 +2,44 @@
 {% import "components/home_card.jinja" as home_card %}
 
 {% block content %}
-    <!-- Start: Search Container -->
-    <section class="py-5"
-        style="padding-bottom: 0px !important;background: linear-gradient(rgba(165,166,246,0.19), rgba(229,220,244,0.18333333333333335) 90%, #ffffff00 100%);">
-        <!-- Start: Search -->
-        <div class="container d-flex py-5" style="margin-top: 29px;">
-            <div class="d-flex flex-column flex-md-row align-items-xxl-center" style="width: 100%;">
-                <div style="padding-right: 0px;width: 100%;">
-                    <h3 class="fw-bold">Looking for a place to rent?</h3>
-                    <p class="text-black-50">Find your perfect place to rent near your campus.</p>
-                    <div>
-                        <form class="d-flex m-auto"><input class="form-control" type="text" style="margin-right: 15px;"
-                                placeholder="City/Province/University Name"><button class="btn btn-primary"
-                                type="submit"><i class="fa-solid fa-magnifying-glass"></i></button></form>
-                    </div>
-                </div><img class="img-fluid d-none d-sm-none d-md-flex"
-                    src="https://r2.radityaharya.me/bloom-girl-investigating-with-magnifying-glass.svg"
-                    style="height: 249px;">
-            </div>
-        </div><!-- End: Search -->
-    </section><!-- End: Search Container -->
-    <section>
-        <div class="container">
-            <div>
-                <h3 class="fw-bold text-primary">Near You</h3>
-                <p>Properties near your current location</p>
-            </div>
+<!-- Start: Search Container -->
+<section class="py-5"
+    style="padding-bottom: 0px !important;background: linear-gradient(rgba(165,166,246,0.19), rgba(229,220,244,0.18333333333333335) 90%, #ffffff00 100%);">
+    <!-- Start: Search -->
+    <div class="container d-flex py-5" style="margin-top: 29px;">
+        <div class="d-flex flex-column flex-md-row align-items-xxl-center" style="width: 100%;">
+            <div style="padding-right: 0px;width: 100%;">
+                <h3 class="fw-bold">Looking for a place to rent?</h3>
+                <p class="text-black-50">Find your perfect place to rent near your campus.</p>
+                <div>
+                    <form class="d-flex m-auto" method="post"><input class="form-control" type="text"
+                            style="margin-right: 15px;" placeholder="City/Province/University Name" name="query">
+                            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
+                </div>
+            </div><img class="img-fluid d-none d-sm-none d-md-flex"
+                src="https://r2.radityaharya.me/bloom-girl-investigating-with-magnifying-glass.svg"
+                style="height: 249px;">
         </div>
-        <div class="container py-5" style="padding-top: 10px !important;">
-            <div class="row g-0 row-cols-1 row-cols-md-2 row-cols-xl-3 d-flex justify-content-center">
-                <!-- Start: Card-Col -->
-                {% for property in properties%}
-                
-                {{ home_card.card(property) }}
-                
-                {% endfor %}
-                <!-- End: Card-Col -->
-            </div>
+    </div><!-- End: Search -->
+</section><!-- End: Search Container -->
+<section>
+    <div class="container">
+        <div>
+            <h3 class="fw-bold text-primary">Near You</h3>
+            <p>Properties near your current location</p>
         </div>
-    </section><!-- Start: Footer Multi Column -->
+    </div>
+    <div class="container py-5" style="padding-top: 10px !important;">
+        <div class="row g-0 row-cols-1 row-cols-md-2 row-cols-xl-3 d-flex justify-content-center">
+            <!-- Start: Card-Col -->
+            {% for property in properties%}
+
+            {{ home_card.card(property) }}
+
+            {% endfor %}
+            <!-- End: Card-Col -->
+        </div>
+    </div>
+</section><!-- Start: Footer Multi Column -->
 {% endblock %}

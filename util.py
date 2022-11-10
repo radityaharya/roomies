@@ -27,7 +27,7 @@ def price_format(price):
       price: The price of the item
     
     Returns:
-      The price is being returned in a string format with a comma and two decimal places.
+      The price is being returned in a string format with a comma every three digits
     """
     return f"{price:,.2f}"
 
@@ -101,21 +101,16 @@ def add_watermark(img_path):
     """
     image = Image.open(img_path) #jpg
     watermark = Image.open("static/img/watermark.png")
-    # add watermark centered of image
-    # calculate the x,y coordinates of the places to paste the watermark
+
     width, height = image.size
     mark_width, mark_height = watermark.size
     left = (width - mark_width) // 2
     top = (height - mark_height) // 2
     image = image.crop((0, 0, width, height - 60))
     
-    # width, height = image.size
-    # mark_width, mark_height = watermark.size
-    # left = (width - mark_width) // 2
-    # top = (height - mark_height) // 2
+
     image.paste(watermark, (left, top), watermark)
-    # return as temporary file path
-    # crop imagr from bottom 200px
+
     img_io = io.BytesIO()
     image.save(img_io, "JPEG", quality=100)
     img_io.seek(0)

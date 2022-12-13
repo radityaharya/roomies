@@ -7,3 +7,4 @@ pymongo==4.2.0
 python-dotenv==0.21.0
 requests==2.25.1
 Werkzeug==2.2.2
+midtransclient

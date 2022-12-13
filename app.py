@@ -25,7 +25,7 @@ load_dotenv(override=True)
 
 app = Flask("roomies")
 app.secret_key = os.urandom(24)
-client = pymongo.MongoClient(os.environ["MONGO_URI"])
+client = pymongo.MongoClient(os.environ["MONGO_URL"])
 
 db = client.roomies
 users = db.users

@@ -59,9 +59,14 @@ def get_coordinates(ipaddr):
     Returns:
       A list of the latitude and longitude of the IP address.
     """
-    response = requests.get(f"http://ip-api.com/json/{ipaddr}", timeout=5)
-    lat = response.json()["lat"]
-    lon = response.json()["lon"]
+    try:
+      response = requests.get(f"http://ip-api.com/json/{ipaddr}", timeout=5)
+      lat = response.json()["lat"]
+      lon = response.json()["lon"]
+    except Exception as e:
+      print(e)
+      lat = 0
+      lon = 0
     return [lat, lon]
 
 
